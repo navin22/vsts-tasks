@@ -77,12 +77,12 @@ async function run() {
                 if (exitCode === 20000) {
                     // The exe returns with exit code: 20000 if the Feature flag is off or if it fails to fetch the Feature flag value
                     const tp: tl.TestPublisher = new tl.TestPublisher(testRunner);
-                    tp.publish(matchingTestResultsFiles, forceMerge ? true.toString() : mergeResults, platform, config, testRunTitle, publishRunAttachments);
+                    tp.publish(matchingTestResultsFiles.join('|'), forceMerge ? true.toString() : mergeResults, platform, config, testRunTitle, publishRunAttachments);
                 }                
             }
             else {
                 const tp: tl.TestPublisher = new tl.TestPublisher(testRunner);
-                tp.publish(matchingTestResultsFiles, forceMerge ? true.toString() : mergeResults, platform, config, testRunTitle, publishRunAttachments);
+                tp.publish(matchingTestResultsFiles.join('|'), forceMerge ? true.toString() : mergeResults, platform, config, testRunTitle, publishRunAttachments);
             }
         }
 
