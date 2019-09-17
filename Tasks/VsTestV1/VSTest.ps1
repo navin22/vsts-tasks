@@ -251,7 +251,12 @@ finally
                 {
                     if($publishRunLevelAttachmentsExists)
                     {
-                        Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -RunTitle $testRunTitle -PublishRunLevelAttachments $publishResultsOption
+                        if ($switchToPowerShell -ieq "true") {
+                            Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -RunTitle $testRunTitle -PublishRunLevelAttachments $publishResultsOption
+                        }
+                        else {
+                            Write-Host "##vso[results.publish type=VSTest;publishRunAttachments=$publishResultsOption;resultFiles=$resultFiles;platform=$platform;configuration=$configuration;testRunSystem=VSTest;runTitle=$testRunTitle;mergeResults=false;]"
+                        }
                     }
                     else
                     {
@@ -259,7 +264,12 @@ finally
                         {
                             Write-Warning (Get-LocalizedString -Key "Update the agent to try out the '{0}' feature." -ArgumentList "opt in/out of publishing test run attachments")
                         }
-                        Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -RunTitle $testRunTitle
+                        if ($switchToPowerShell -ieq "true") {
+                            Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -RunTitle $testRunTitle
+                        }
+                        else {
+                            Write-Host "##vso[results.publish type=VSTest;resultFiles=$resultFiles;platform=$platform;configuration=$configuration;testRunSystem=VSTest;runTitle=$testRunTitle;mergeResults=false;]"
+                        }
                     }
                 }
                 else
@@ -271,7 +281,12 @@ finally
             
                     if($publishRunLevelAttachmentsExists)		
                     {
-                        Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -PublishRunLevelAttachments $publishResultsOption
+                        if ($switchToPowerShell -ieq "true") {
+                            Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration -PublishRunLevelAttachments $publishResultsOption
+                        }
+                        else {
+                            Write-Host "##vso[results.publish type=VSTest;publishRunAttachments=$publishResultsOption;resultFiles=$resultFiles;platform=$platform;configuration=$configuration;testRunSystem=VSTest;mergeResults=false;]"
+                        }
                     }
                     else
                     {
@@ -279,8 +294,13 @@ finally
                         {
                             Write-Warning (Get-LocalizedString -Key "Update the agent to try out the '{0}' feature." -ArgumentList "opt in/out of publishing test run attachments")
                         }
-                        Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration
-                    }		
+                        if ($switchToPowerShell -ieq "true") {
+                            Publish-TestResults -Context $distributedTaskContext -TestResultsFiles $resultFiles -TestRunner "VSTest" -Platform $platform -Configuration $configuration
+                        }
+                        else {
+                            Write-Host "##vso[results.publish type=VSTest;resultFiles=$resultFiles;platform=$platform;configuration=$configuration;testRunSystem=VSTest;mergeResults=false;]"
+                        }
+                    }
                 }
             }
             else
